@@ -5,14 +5,15 @@ import torch
 
 def train_model(config):
     print(f'Training on {config.device}')
+"""
     wandb.login()
-    run=wandb.init(
+     run=wandb.init(
         project = config.name,
         config = {
             'optimizer': config.optimizer,
             'model': config.model
         }
-    )
+    )"""
     for _ in range(config.epochs):
         best_loss=float('inf')
         losses = 0
@@ -33,7 +34,7 @@ def train_model(config):
             torch.save(config.model.state_dict(), config.model_file)
         acc = config.metric.compute()
         print(f'Train_Loss: {losses:0.3g} | Train_Accuracy: {acc:0.3g}')
-        wandb.log({'train_accuracy': acc, 'train_loss':losses})
+        #wandb.log({'train_accuracy': acc, 'train_loss':losses})
         config.metric.reset()
         
         for X, y in tqdm(config.test_dataloader):
@@ -46,7 +47,7 @@ def train_model(config):
         losses = losses/config.test_dataloader.dataset.__len__()
         acc = config.metric.compute()
         print(f'Test_Loss: {losses:0.3g} | Test_Accuracy: {acc:0.3g}')
-        wandb.log({'test_accuracy': acc, 'test_loss':losses})
+        #wandb.log({'test_accuracy': acc, 'test_loss':losses})
         config.metric.reset()
         # import pdb;pdb.set_trace()
     config.scheduler.step()
