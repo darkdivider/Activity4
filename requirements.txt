@@ -3,4 +3,3 @@ torchvision
 torchmetrics
 tqdm
 wandb
-pickle
